@@ -14,7 +14,8 @@ class TimetableView extends StatefulWidget {
     Key key,
     @required this.laneEventsList,
     this.timetableStyle: const TimetableStyle(),
-  })  : assert(laneEventsList != null),
+  })
+      : assert(laneEventsList != null),
         super(key: key);
 
   @override
@@ -71,18 +72,18 @@ class _TimetableViewState extends State<TimetableView>
         horizontalPixelsStreamController: horizontalPixelsStream,
         verticalPixelsStreamController: verticalPixelsStream,
         onScroll: onScroll,
-        maxWidth:
-            widget.laneEventsList.length * widget.timetableStyle.laneWidth,
-        maxHeight:
-            (widget.timetableStyle.endHour - widget.timetableStyle.startHour) *
-                widget.timetableStyle.timeItemHeight,
+        maxWidth: widget.laneEventsList.length *
+            widget.timetableStyle.laneWidth,
+        maxHeight: (widget.timetableStyle.endHour -
+            widget.timetableStyle.startHour) *
+            widget.timetableStyle.timeItemHeight,
         child: IntrinsicHeight(
           child: Row(
             children: widget.laneEventsList.map((laneEvents) {
-              return LaneView(
+              return Card(child: Container(/*width: 120, */child: LaneView(
                 events: laneEvents.events,
                 timetableStyle: widget.timetableStyle,
-              );
+              )));
             }).toList(),
           ),
         ),
@@ -95,16 +96,14 @@ class _TimetableViewState extends State<TimetableView>
       alignment: Alignment.topLeft,
       width: widget.timetableStyle.timeItemWidth,
       padding: EdgeInsets.only(top: widget.timetableStyle.laneHeight),
-      color: widget.timetableStyle.timelineColor,
       child: ListView(
         physics: const ClampingScrollPhysics(),
         controller: verticalScrollController,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: [
-          for (var i = widget.timetableStyle.startHour;
-              i < widget.timetableStyle.endHour;
-              i += 1)
+          for (var i = widget.timetableStyle.startHour; i <
+              widget.timetableStyle.endHour; i += 1)
             i
         ].map((hour) {
           return Container(

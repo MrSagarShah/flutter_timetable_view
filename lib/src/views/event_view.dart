@@ -13,7 +13,8 @@ class EventView extends StatelessWidget {
     Key key,
     @required this.event,
     @required this.timetableStyle,
-  })  : assert(event != null),
+  })
+      : assert(event != null),
         assert(timetableStyle != null),
         super(key: key);
 
@@ -26,46 +27,53 @@ class EventView extends StatelessWidget {
       width: timetableStyle.laneWidth,
       child: GestureDetector(
         onTap: event.onTap,
-        child: Container(
-          decoration: event.decoration ??
-              (event.backgroundColor != null
-                  ? BoxDecoration(color: event.backgroundColor)
-                  : null),
-          margin: event.margin,
-          padding: event.padding,
-          child: (Utils.eventText)(
-            event,
-            context,
-            math.max(
-                0.0,
-                height() -
-                    (event.padding?.top ?? 0.0) -
-                    (event.padding?.bottom ?? 0.0)),
-            math.max(
-                0.0,
-                timetableStyle.laneWidth -
-                    (event.padding?.left ?? 0.0) -
-                    (event.padding?.right ?? 0.0)),
-          ),
-        ),
+        child: ClipRRect(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(width: 4.0, color: Colors.cyan),
+                ),
+
+                color: Colors.white,
+              ),
+              margin: event.margin,
+              padding: event.padding,
+              child: (Utils.eventText)(
+                event,
+                context,
+                math.max(
+                    0.0,
+                    height() -
+                        (event.padding?.top ?? 0.0) -
+                        (event.padding?.bottom ?? 0.0)),
+                math.max(
+                    0.0,
+                    timetableStyle.laneWidth -
+                        (event.padding?.left ?? 0.0) -
+                        (event.padding?.right ?? 0.0)),
+              ),
+            )),
       ),
     );
   }
 
   double top() {
     return calculateTopOffset(event.start.hour, event.start.minute,
-            timetableStyle.timeItemHeight) -
+        timetableStyle.timeItemHeight) -
         timetableStyle.startHour * timetableStyle.timeItemHeight;
   }
 
   double height() {
-    return calculateTopOffset(0, event.end.difference(event.start).inMinutes,
-            timetableStyle.timeItemHeight) +
+    return calculateTopOffset(0, event.end
+        .difference(event.start)
+        .inMinutes,
+        timetableStyle.timeItemHeight) +
         1;
   }
 
-  double calculateTopOffset(
-    int hour, [
+  double calculateTopOffset(int hour, [
     int minute = 0,
     double hourRowHeight,
   ]) {

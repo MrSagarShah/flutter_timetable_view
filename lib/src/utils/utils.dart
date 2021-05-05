@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_timetable_view/src/models/table_event.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Utils {
   static bool sameDay(DateTime date, [DateTime target]) {
@@ -41,7 +42,7 @@ class Utils {
     List<TextSpan> text = [
       TextSpan(
         text: event.title,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
       ),
       TextSpan(
         text: ' ' +
@@ -67,12 +68,11 @@ class Utils {
       }
     }
 
-    return RichText(
-      text: TextSpan(
-        children: text,
-        style: event.textStyle,
-      ),
-    );
+    return AutoSizeText(Utils.hourFormatter(event.start.hour, event.start.minute) +
+            ' - ' +
+            Utils.hourFormatter(event.end.hour, event.end.minute) +
+            '\n'+""+event.title,
+    style: Theme.of(context).textTheme.headline5.copyWith(fontSize: 10,fontWeight: FontWeight.w400,color: Colors.black));
   }
 
   static String _addLeadingZero(int number) {
