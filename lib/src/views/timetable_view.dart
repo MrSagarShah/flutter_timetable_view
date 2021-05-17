@@ -93,10 +93,13 @@ class _TimetableViewState extends State<TimetableView>
 
   Widget _buildTimelineList(BuildContext context) {
     return Container(
-      alignment: Alignment.topLeft,
+
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: 5),
       width: widget.timetableStyle.timeItemWidth,
       padding: EdgeInsets.only(top: widget.timetableStyle.laneHeight),
       child: ListView(
+        padding: EdgeInsets.zero,
         physics: const ClampingScrollPhysics(),
         controller: verticalScrollController,
         scrollDirection: Axis.vertical,
@@ -106,7 +109,7 @@ class _TimetableViewState extends State<TimetableView>
               widget.timetableStyle.endHour; i += 1)
             i
         ].map((hour) {
-          return Container(
+          return Center(child: Container(
             height: widget.timetableStyle.timeItemHeight,
             decoration: BoxDecoration(
               border: Border(
@@ -117,12 +120,12 @@ class _TimetableViewState extends State<TimetableView>
               ),
               color: widget.timetableStyle.timelineItemColor,
             ),
-            child: Text(
+            child: Center(child: Text(
               Utils.hourFormatter(hour, 0),
               style: TextStyle(color: widget.timetableStyle.timeItemTextColor),
               textAlign: TextAlign.center,
-            ),
-          );
+            ),),
+          ),);
         }).toList(),
       ),
     );
